@@ -22,6 +22,7 @@
 volatile unsigned long *h2p_lw_led_addr=NULL;
 volatile unsigned long *h2p_lw_hex_addr=NULL;
 volatile unsigned long *h2p_lw_7seg_addr=NULL;
+volatile unsigned long *h2p_lw_ram_addr=NULL;
 void led_blink(void)
 {
 	int i=0;
@@ -44,12 +45,12 @@ int main(int argc, char **argv)
 	time_t timer;
 	struct tm *date;
 	int outData;
+	int i;
 	pthread_t id;
 	int ret;
 	void *virtual_base;
 	int fd;
-	// map the address space for the LED registers into user space so we can interact with them.
-	// we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
+
 	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
 		printf( "ERROR: could not open \"/dev/mem\"...\n" );
 		return( 1 );
@@ -69,9 +70,11 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	*/
-	h2p_lw_7seg_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x0 ) & ( unsigned long)( HW_REGS_MASK ) );
+	h2p_lw_7seg_addr = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x0   ) & ( unsigned long)( HW_REGS_MASK ) );
+	h2p_lw_ram_addr  = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x400 ) & ( unsigned long)( HW_REGS_MASK ) );
 	while(1)
 	{
+		/*
 		timer = time(NULL);
 		date = localtime(&timer);
 		outData =
@@ -83,8 +86,13 @@ int main(int argc, char **argv)
 			(date->tm_sec % 10);
 		//SEG7_All_Number();
 		alt_write_word(h2p_lw_7seg_addr,outData);
+		*/
+		for(i = 0;i < 8;i++){
+			printf("0x%x,",alt_read_word(h2p_lw_ram_addr + i));
+		}
+		break;
 	}
-	//pthread_join(id,NULL);
+
 	if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) {
 		printf( "ERROR: munmap() failed...\n" );
 		close( fd );
