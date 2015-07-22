@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	}
 	*/
 	h2p_lw_7seg_addr = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x0   ) & ( unsigned long)( HW_REGS_MASK ) );
-	h2p_lw_ram_addr  = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x3000 ) & ( unsigned long)( HW_REGS_MASK ) );
+	h2p_lw_ram_addr  = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x400 ) & ( unsigned long)( HW_REGS_MASK ) );
 	while(1)
 	{
 		/*
@@ -92,7 +92,6 @@ int main(int argc, char **argv)
 		}
 		printf("\n");
 
-		break;
 	}
 
 	if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) {
