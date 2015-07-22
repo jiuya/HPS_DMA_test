@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	}
 	*/
 	h2p_lw_7seg_addr = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x0   ) & ( unsigned long)( HW_REGS_MASK ) );
-	h2p_lw_ram_addr  = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x400 ) & ( unsigned long)( HW_REGS_MASK ) );
+	h2p_lw_ram_addr  = virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + 0x3000 ) & ( unsigned long)( HW_REGS_MASK ) );
 	while(1)
 	{
 		/*
@@ -90,6 +90,8 @@ int main(int argc, char **argv)
 		for(i = 0;i < 8;i++){
 			printf("0x%x,",alt_read_word(h2p_lw_ram_addr + i));
 		}
+		printf("\n");
+
 		break;
 	}
 
