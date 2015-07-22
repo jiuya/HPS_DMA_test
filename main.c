@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 		alt_write_word(h2p_lw_7seg_addr,outData);
 		*/
 		for(i = 0;i < 8;i++){
-			printf("0x%x,",alt_read_word(h2p_lw_ram_addr + i));
+			printf("0x%x,",alt_read_byte(h2p_lw_ram_addr + i));
 		}
 		printf("\n");
 
